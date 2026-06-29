@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react";
 import { toast } from "@heroui/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import QRCode from "qrcode";
 import {
   useSubscriptionPlanDetail,
@@ -40,7 +40,7 @@ const vaList: { id: PaymentChannel; label: string }[] = [
 
 type Step = "form" | "success";
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [selected, setSelected] = useState<PaymentChannel>("qris");
@@ -410,5 +410,13 @@ export default function CheckoutPage() {
         </div>
       </div>
     </AuthGuard>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense>
+      <CheckoutContent />
+    </Suspense>
   );
 }

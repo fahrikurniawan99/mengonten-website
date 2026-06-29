@@ -3,13 +3,13 @@
 import { Icon } from "@iconify/react";
 import { Button, Card, Input, Label, TextField, toast } from "@heroui/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useVerifyEmail, useResendVerification } from "@/hooks/useAuth";
 import { useAuthStore } from "@/store/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Logo from "@/components/Logo";
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const token = useAuthStore((s) => s.token);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -194,5 +194,13 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }
